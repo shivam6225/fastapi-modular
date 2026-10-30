@@ -1,5 +1,5 @@
 from fastapi import FastAPI , HTTPException
-
+from middleware.cors import add_cors_middleware
 from routers import user_data_router
 
 # Add a description for the Service
@@ -15,9 +15,13 @@ app = FastAPI(
     version="1.0.0",
     contact={
         "name": "Shivam Pahariya",
-        "email": "shivam.email@example.com"
+        "email": "shivam.pahariya@example.com"
     }
 )
+
+# Add CORS middleware to the FastAPI application
+add_cors_middleware(app)
+
 
 app.include_router(user_data_router.router)  # Include the user data router in the FastAPI application
 

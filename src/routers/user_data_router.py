@@ -18,9 +18,8 @@ router = APIRouter(
     tags=["User Data"]
 )
 
-user_data_logger.info("User Data Router initialized")  # Log the initialization of the user data router
- 
-#@router.post("/get-user-data")
+user_data_logger.info("User Data Router initialized")
+
 def get_user_data(payload: GetUserDataRequest):
     """
     Endpoint to retrieve user data based on the provided user ID.
@@ -31,9 +30,10 @@ def get_user_data(payload: GetUserDataRequest):
     Returns:
         JSONResponse: A JSON response containing the user data or an error message.
     """
-    
-    # In a real application, you would replace this with actual database queries or API calls.
 
+    user_data_logger.info(f"Received request to fetch user data for user_id: {payload.user_id}")
+
+    # In a real application, you would replace this with actual database queries or API calls.
     user_data = {
         "user_id": payload.user_id,
         "name": "Shivam Pahariya",
@@ -44,9 +44,10 @@ def get_user_data(payload: GetUserDataRequest):
 
     # Check if the user ID is valid (for demonstration purposes, we assume user_id > 0 is valid)
     if payload.user_id > 0:
+        user_data_logger.info(f"Successfully fetched user data for user_id: {payload.user_id}")
         return JSONResponse(content=user_data, status_code=200)
     else:
-        # If the user ID is invalid, raise an HTTPException with a 404 status code.
+        user_data_logger.error(f"Invalid user_id: {payload.user_id}. User not found.")
         raise HTTPException(status_code=404, detail="User Not Found or Invalid User ID")
 
 
