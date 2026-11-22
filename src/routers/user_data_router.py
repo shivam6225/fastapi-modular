@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import JSONResponse
 from models.user_data_models import GetUserDataRequest , UserData
 from dependencies.logger import user_data_logger
+from dependencies.auth import authenticate_user
 
 # We have __init__ method in each folder to make it a package. 
 # This allows us to import modules from the folder as a package.
@@ -54,5 +55,5 @@ def get_user_data(payload: GetUserDataRequest):
 # You can add  @app.post("/user-data") decorators to define the HTTP method for this endpoint.
 # Or use router.add_api_route("/user-data", get_user_data, methods=["POST"]) to add the route to the router.
 
-
-router.add_api_route("/get-user-data", get_user_data, methods=["POST"])
+#Modified the route to include the OAuth2 authentication dependency using the oauth2_scheme function.
+router.add_api_route("/get-user-data", get_user_data, methods=["POST"], dependencies=[Depends(authenticate_user)])
